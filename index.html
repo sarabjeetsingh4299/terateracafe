@@ -25,21 +25,16 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Styles -->
+    <!-- Styles - Critical CSS inline, rest deferred -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Preload critical images for faster loading -->
-    <link rel="preload" as="image" href="img_5119.jpeg">
-    <link rel="preload" as="image" href="tera-tera-cafe-maps.png">
-    
-    <!-- DNS prefetch for external resources -->
-    <link rel="dns-prefetch" href="//images.pexels.com">
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <!-- Fonts - Load async -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
 </head>
 <body>
     <!-- Service Selection Screen -->
@@ -221,10 +216,10 @@
                 </div>
                 <div class="about-image">
                     <div class="image-placeholder">
-                        <img src="assets_task_01k4wnpzypeb295rd7824fpy9d_1757604074_img_0.webp" />
+                        <img src="assets_task_01k4wnpzypeb295rd7824fpy9d_1757604074_img_0.webp" loading="lazy" decoding="async" alt="Cafe interior" />
                     </div>
                      <div class="image-placeholder">
-                        <img src="cafe_img.png" />
+                        <img src="cafe_img.png" loading="lazy" decoding="async" alt="Cafe ambiance" />
                     </div>
                 </div>
             </div>
@@ -283,7 +278,7 @@
                 
                 <div class="map-container">
                     <div class="map-image" onclick="openGoogleMaps()">
-                        <img src="tera-tera-cafe-maps.png" alt="Tera Tera Café Location" loading="lazy">
+                        <img src="tera-tera-cafe-maps.png" alt="Tera Tera Café Location" loading="lazy" decoding="async">
                         <div class="map-overlay">
                             <div class="map-pin">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -390,7 +385,7 @@ Kailash Nagar, Bhilai 490026</li>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts - Defer non-critical -->
     <script>
         // Define functions immediately to ensure they're available
         function selectService(serviceType) {
@@ -452,8 +447,8 @@ Kailash Nagar, Bhilai 490026</li>
         window.selectService = selectService;
         window.changeService = changeService;
     </script>
-    <script src="menu-data.js"></script>
-    <script src="script.js"></script>
+    <script src="menu-data.js" defer></script>
+    <script src="script.js" defer></script>
     
     </div> <!-- End of main-content -->
 </body>

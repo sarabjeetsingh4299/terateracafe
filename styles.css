@@ -1457,36 +1457,35 @@ body {
 }
 
 /* Performance optimizations */
-.menu-item {
-    will-change: transform;
-    backface-visibility: hidden;
+.menu-item,
+.feature-card,
+.contact-card {
+    will-change: auto;
+    contain: layout style paint;
 }
 
-.menu-item:hover {
-    transform: translateY(-5px) translateZ(0);
-}
-
-/* Reduce paint operations */
-.nav-menu {
-    transform: translateZ(0);
-}
-
-.hero-image {
-    transform: translateZ(0);
+/* Reduce repaints */
+.nav-menu,
+.hero-image,
+.coffee-animation {
+    will-change: auto;
 }
 
 /* Optimize animations */
 @media (prefers-reduced-motion: reduce) {
-    * {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 
-/* Critical CSS for above-the-fold content */
-.navbar, .hero {
-    contain: layout style paint;
+/* Image optimization */
+img {
+    content-visibility: auto;
 }
 
 /* Utility Classes */

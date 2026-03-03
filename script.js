@@ -10,8 +10,6 @@ let navToggle, navMenu, menuGrid, menuSearch, filterBtns, orderModal, cartItems,
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded');
-    
     // Initialize DOM elements
     serviceSelection = document.getElementById('service-selection');
     mainContent = document.getElementById('main-content');
@@ -28,35 +26,24 @@ document.addEventListener('DOMContentLoaded', function() {
     orderTotal = document.getElementById('order-total');
     installBtn = document.getElementById('install-btn');
     
-    // Initialize navigation immediately (even before service selection)
+    // Initialize navigation immediately
     initializeNavigation();
     
     // Initialize filtered menu
     if (typeof menuData !== 'undefined') {
         filteredMenu = [...menuData];
-        console.log('Menu data loaded:', menuData.length, 'items');
     }
-    
-    console.log('Elements found:', {
-        serviceSelection: !!serviceSelection,
-        mainContent: !!mainContent,
-        menuGrid: !!menuGrid,
-        navToggle: !!navToggle,
-        navMenu: !!navMenu
-    });
 });
 
 // Make initializeApp globally available
 window.initializeApp = function() {
-    console.log('Initializing app components');
-    
     // Update service indicator if service is selected
     if (window.currentServiceType) {
         currentServiceType = window.currentServiceType;
         updateServiceIndicator();
     }
     
-    // Initialize components (navigation already initialized)
+    // Initialize components
     initializeSearch();
     initializeFilters();
     
@@ -139,59 +126,41 @@ function getIconColor(category) {
 
 // Navigation functionality
 function initializeNavigation() {
-    console.log('Initializing navigation...');
-    
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
     
-    console.log('Navigation elements:', { 
-        navToggle: !!navToggle, 
-        navMenu: !!navMenu
-    });
-    
-    if (!navToggle || !navMenu) {
-        console.error('Navigation elements not found');
-        return;
-    }
+    if (!navToggle || !navMenu) return;
     
     // Add click event to toggle
     navToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Nav toggle clicked via addEventListener!');
         
-        const isActive = navMenu.classList.contains('active');
-        console.log('Menu currently active:', isActive);
-        
-        if (isActive) {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            console.log('Menu closed');
-        } else {
-            navMenu.classList.add('active');
-            navToggle.classList.add('active');
-            console.log('Menu opened');
-        }
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
     });
 
     // Close mobile menu when clicking on a link
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
-            console.log('Nav link clicked, closing menu');
             navMenu.classList.remove('active');
             navToggle.classList.remove('active');
         });
     });
 
     // Navbar scroll effect
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        const navbar = document.getElementById('navbar');
-        if (navbar) {
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const navbar = document.getElementById('navbar');
+                if (navbar) {
+                    navbar.style.background = window.scrollY > 100 ? 
+                        'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.95)';
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
     });
 }

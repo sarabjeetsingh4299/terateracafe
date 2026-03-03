@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="alice" language="en-IN">
+        Hello! You have received a new order at Tera Tera Café. 
+        Please check your order management system for complete details. 
+        Thank you for using our automated notification system.
+    </Say>
+    <Pause length="1"/>
+    <Say voice="alice" language="en-IN">
+        This is an automated message from Tera Tera Café order system.
+    </Say>
+</Response>

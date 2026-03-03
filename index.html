@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tera Tera Café - Premium Coffee & Food</title>
+    <meta name="description" content="Tera Tera Café - Premium coffee, delicious food, and exceptional service. Order online for pickup or delivery.">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2D1810">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tera Tera Café">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.svg">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Preload critical images for faster loading -->
+    <link rel="preload" as="image" href="img_5119.jpeg">
+    <link rel="preload" as="image" href="tera-tera-cafe-maps.png">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//images.pexels.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+</head>
+<body>
+    <!-- Service Selection Screen -->
+    <div id="service-selection" class="service-selection">
+        <div class="service-content">
+            <div class="service-header">
+                <div class="logo-circle large">
+                    <span class="logo-number">13/13</span>
+                </div>
+                <h1>Tera Tera Café</h1>
+                <p class="logo-punjabi">ਤੇਰਾ ਤੇਰਾ</p>
+                <p class="service-subtitle">Choose your dining experience</p>
+            </div>
+            
+            <div class="service-options">
+                <button class="service-btn dine-in-btn" onclick="selectService('dine-in')">
+                    <div class="service-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.20-1.10-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L14.89 11.53z"/>
+                        </svg>
+                    </div>
+                    <h3>Dine-In</h3>
+                    <p>Enjoy at our café</p>
+                    <span class="service-note">Lower prices • Instant service</span>
+                </button>
+                
+                <button class="service-btn delivery-btn" onclick="selectService('delivery')">
+                    <div class="service-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 7c0-1.1-.9-2-2-2h-3v2h3v2.65L13.52 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4.48L19 10.35V7zM7 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                            <path d="M5 6h5v2H5zm11.5 9c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Delivery</h3>
+                    <p>Order for home delivery</p>
+                    <span class="service-note">Delivery charges may apply</span>
+                </button>
+            </div>
+            
+            <div class="service-info">
+                <p><i class="fas fa-clock"></i> Open: 9:00 AM - 10:00 PM</p>
+                <p><i class="fas fa-map-marker-alt"></i> Ekta Chowk, Kailash Nagar, Bhilai</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen (removed for simplicity) -->
+
+    <!-- Navigation (moved outside main-content) -->
+    <nav class="navbar" id="navbar" style="display: none;">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-circle">
+                    <span class="logo-number">13/13</span>
+                </div>
+                <span class="logo-text">Tera Tera Café</span>
+                <span class="logo-punjabi">ਤੇਰਾ ਤੇਰਾ</span>
+            </div>
+           
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+ <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#menu" class="nav-link">Menu</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#" class="nav-link order-btn" onclick="openOrderModal()">Order Now</a></li>
+            </ul>
+    <!-- Main Website Content -->
+    <div id="main-content" style="display: none;">
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Welcome to<br><span class="brand-name">Tera Tera Café</span></h1>
+                <p class="hero-subtitle">Premium coffee, delicious food, and exceptional service in the heart of the city</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="openOrderModal()">
+                        <i class="fas fa-shopping-cart"></i> Order Online
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('menu').scrollIntoView()">
+                        <i class="fas fa-utensils"></i> View Menu
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="coffee-animation">
+                    <div class="coffee-cup-large">☕</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Free Delivery</h3>
+                    <p>Free home delivery on orders above ₹300</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Easy Ordering</h3>
+                    <p>Order online or scan QR code for quick service</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Premium Quality</h3>
+                    <p>Fresh ingredients and premium coffee beans</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Menu</h2>
+                <p class="section-subtitle">Discover our delicious offerings</p>
+            </div>
+            
+            <!-- Menu Search -->
+            <div class="menu-search">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="menu-search" placeholder="Search menu items...">
+                </div>
+                <div class="menu-filters">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="sandwich">Sandwich</button>
+                    <button class="filter-btn" data-category="maggi">Maggi</button>
+                    <button class="filter-btn" data-category="fries">Fries</button>
+                    <button class="filter-btn" data-category="pasta">Pasta</button>
+                    <button class="filter-btn" data-category="waffle">Waffle</button>
+                    <button class="filter-btn" data-category="cold-beverages">Cold Beverages</button>
+                    <button class="filter-btn" data-category="hot-beverages">Hot Beverages</button>
+                    <button class="filter-btn" data-category="wraps">Wraps</button>
+                    <button class="filter-btn" data-category="kebab">Kebab</button>
+                </div>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="menu-grid" id="menu-grid">
+                <!-- Menu items will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Tera Tera Café</h2>
+                    <p>Established in 2025, Tera Tera Café has been serving premium coffee and delicious food to our community. We believe in quality ingredients, exceptional service, and creating a warm, welcoming atmosphere for all our guests.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Happy Customers</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>Menu Items</p>
+                        </div>
+                        <div class="stat">
+                            <h3>100%</h3>
+                            <p>Fresh Ingredients</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <img src="assets_task_01k4wnpzypeb295rd7824fpy9d_1757604074_img_0.webp" />
+                    </div>
+                     <div class="image-placeholder">
+                        <img src="cafe_img.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Visit Us</h2>
+                <p class="section-subtitle">Find us and get in touch</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Location</h3>
+                            <p>Ekta Chowk<br>Kailash Nagar, Bhilai 490026</p>
+                            <button class="btn btn-outline" onclick="openGoogleMaps()">
+                                <i class="fas fa-directions"></i> Get Directions
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Call Us</h3>
+                            <p>+91 93999 82281</p>
+                            <button class="btn btn-outline" onclick="makeCall()">
+                                <i class="fas fa-phone"></i> Call Now
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <p>Quick orders & support</p>
+                            <button class="btn btn-outline" onclick="openWhatsApp()">
+                                <i class="fab fa-whatsapp"></i> Chat Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-container">
+                    <div class="map-image" onclick="openGoogleMaps()">
+                        <img src="tera-tera-cafe-maps.png" alt="Tera Tera Café Location" loading="lazy">
+                        <div class="map-overlay">
+                            <div class="map-pin">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="map-info">
+                                <h4>Tera Tera Café</h4>
+                                <p>Click to open in Google Maps</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-circle">
+                            <span class="logo-number">13/13</span>
+                        </div>
+                        <span class="text-white">Tera Tera Café</span>
+                        <span class="logo-punjabi">ਤੇਰਾ ਤੇਰਾ</span>
+                    </div>
+                    <p>Premium coffee and food experience</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 93999 82281</li>
+                        <li><i class="fas fa-envelope"></i> terateracafe@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ekta Chowk
+Kailash Nagar, Bhilai 490026</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#" onclick="orderViaWhatsApp()"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Tera Tera Café. All rights reserved.</p>
+                <button id="install-btn" class="install-btn" style="display: none;">
+                    <i class="fas fa-download"></i> Install App
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Online - <span id="modal-service-type">Delivery</span></h2>
+                <span class="close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary">
+                    <h3>Your Order</h3>
+                    <div id="cart-items"></div>
+                    <div class="order-total">
+                        <strong>Total: ₹<span id="order-total">0</span></strong>
+                    </div>
+                </div>
+                 <div class="order-actions">
+                    <div class="order-note" style="text-align: center; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">
+                            <i class="fas fa-info-circle"></i> How to Order
+                        </h3>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            Place your order easily through WhatsApp or give us a call. We'll confirm your order and prepare it fresh!
+                        </p>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="makeCall()">
+                    <i class="fas fa-phone"></i> Call Now
+                </button>
+                <button class="btn btn-primary" onclick="window.open(whatsappUrl, '_blank')">
+                     <i class="fab fa-whatsapp"></i> Place Order
+                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Define functions immediately to ensure they're available
+        function selectService(serviceType) {
+            console.log('Service selected:', serviceType);
+            
+            // Hide service selection
+            const serviceSelectionEl = document.getElementById('service-selection');
+            if (serviceSelectionEl) {
+                serviceSelectionEl.style.display = 'none';
+            }
+            
+            // Show navigation
+            const navbarEl = document.getElementById('navbar');
+            if (navbarEl) {
+                navbarEl.style.display = 'block';
+            }
+            
+            // Show main content
+            const mainContentEl = document.getElementById('main-content');
+            if (mainContentEl) {
+                mainContentEl.style.display = 'block';
+            }
+            
+            // Store service type
+            window.currentServiceType = serviceType;
+            
+            // Initialize the rest of the app after a short delay
+            setTimeout(() => {
+                if (typeof initializeApp === 'function') {
+                    initializeApp();
+                }
+                
+                // Handle navigation
+                if (serviceType === 'dine-in') {
+                    setTimeout(() => {
+                        const menuSection = document.getElementById('menu');
+                        if (menuSection) {
+                            menuSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 1000);
+                }
+            }, 100);
+        }
+
+        function changeService() {
+            console.log('Changing service');
+            const serviceSelectionEl = document.getElementById('service-selection');
+            const mainContentEl = document.getElementById('main-content');
+            const navbarEl = document.getElementById('navbar');
+            
+            if (serviceSelectionEl) serviceSelectionEl.style.display = 'flex';
+            if (mainContentEl) mainContentEl.style.display = 'none';
+            if (navbarEl) navbarEl.style.display = 'none';
+            
+            window.currentServiceType = null;
+        }
+        
+        // Make functions globally available
+        window.selectService = selectService;
+        window.changeService = changeService;
+    </script>
+    <script src="menu-data.js"></script>
+    <script src="script.js"></script>
+    
+    </div> <!-- End of main-content -->
+</body>
+</html>

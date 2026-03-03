@@ -1,0 +1,1844 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SmartCart Pro - Intelligent Shopping Assistant</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --secondary: #14b8a6;
+      --accent: #06d6a0;
+      --danger: #e63946;
+      --success: #22c55e;
+      --info: #0ea5e9;
+      --bg-light: #f0fdf4;
+      --bg-card: #ffffff;
+      --text-primary: #2d3142;
+      --text-secondary: #6c757d;
+      --border: #d1fae5;
+      --shadow: rgba(16, 185, 129, 0.15);
+      --gradient-1: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      --gradient-2: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+    }
+
+    [data-theme="dark"] {
+      --primary: #34d399;
+      --primary-dark: #10b981;
+      --secondary: #2dd4bf;
+      --accent: #4ade80;
+      --danger: #ff6b6b;
+      --success: #4ecdc4;
+      --info: #38bdf8;
+      --bg-light: #1a1a2e;
+      --bg-card: #16213e;
+      --text-primary: #eef4ed;
+      --text-secondary: #a8b2d1;
+      --border: #2d3561;
+      --shadow: rgba(16, 185, 129, 0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', -apple-system, sans-serif;
+      background: var(--bg-light);
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(20, 184, 166, 0.08) 0%, transparent 50%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    [data-theme="dark"] body {
+      background: var(--bg-light);
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(20, 184, 166, 0.15) 0%, transparent 50%);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      box-shadow: 0 4px 20px var(--shadow);
+      padding: 28px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 30px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    [data-theme="dark"] .card {
+      border-color: var(--border);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--gradient-1);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+      transform: rotate(-5deg);
+      transition: all 0.3s ease;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .logo-text h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+      letter-spacing: -1px;
+    }
+
+    .logo-text p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 4px 0 0 0;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--gradient-1);
+      color: white;
+      border: 2px solid transparent;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--gradient-2);
+      color: white;
+      border: 2px solid transparent;
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 6px 20px rgba(247, 147, 30, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+
+    .input-group {
+      display: grid;
+      grid-template-columns: 2.5fr 1fr 1.2fr auto;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .input-field {
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-1);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-container {
+      background: var(--border);
+      height: 16px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 16px 0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--gradient-1);
+      transition: width 0.5s ease;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .progress-bar.warning {
+      background: var(--gradient-2);
+    }
+
+    .progress-bar.danger {
+      background: linear-gradient(90deg, var(--danger), #ff8787);
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .item-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .item-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--gradient-1);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .item-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .item-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 6px 20px var(--shadow);
+      transform: translateX(4px);
+    }
+
+    .item-card.purchased {
+      opacity: 0.5;
+      background: var(--bg-light);
+    }
+
+    .item-card.purchased::before {
+      background: var(--text-secondary);
+    }
+
+    .item-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .item-checkbox {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 8px;
+      border: 3px solid var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      background: var(--bg-card);
+    }
+
+    .item-checkbox:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .item-checkbox.checked {
+      background: var(--gradient-1);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 700;
+      font-size: 17px;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .item-details {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .item-price {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ai-suggestions {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(20, 184, 166, 0.08));
+      border-radius: 14px;
+      padding: 24px;
+      border: 2px solid rgba(16, 185, 129, 0.2);
+      margin-bottom: 24px;
+    }
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gradient-1);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .suggestion-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .suggestion-chip {
+      background: var(--bg-card);
+      border: 2px solid var(--primary);
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--primary);
+    }
+
+    .suggestion-chip:hover {
+      background: var(--gradient-1);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .category-tab {
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 2px solid var(--border);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .category-tab:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .category-tab.active {
+      background: var(--gradient-1);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* AI Chat */
+    .ai-chat {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 1000;
+    }
+
+    .chat-button {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--gradient-1);
+      color: white;
+      border: 4px solid var(--bg-card);
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .chat-button:hover {
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 12px 36px rgba(16, 185, 129, 0.6);
+    }
+
+    .chat-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      backdrop-filter: blur(6px);
+    }
+
+    .chat-backdrop.active {
+      display: block;
+    }
+
+    .chat-window {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 420px;
+      height: 600px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 3px solid var(--primary);
+      box-shadow: 0 16px 56px rgba(16, 185, 129, 0.4);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1070;
+      transform-origin: bottom right;
+    }
+
+    .chat-window.active {
+      display: flex;
+      animation: scaleIn 0.3s ease;
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .chat-header {
+      background: var(--gradient-1);
+      color: white;
+      padding: 20px;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-close {
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: all 0.3s ease;
+    }
+
+    .chat-close:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: rotate(90deg);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: var(--bg-light);
+    }
+
+    .chat-message {
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      max-width: 85%;
+      line-height: 1.6;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .chat-message strong {
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .chat-message.user {
+      background: var(--gradient-1);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-message.ai {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 2px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 18px;
+      border-top: 2px solid var(--border);
+      gap: 10px;
+      background: var(--bg-card);
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-light);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .chat-input input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px var(--shadow);
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .modal-body {
+      padding: 24px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state i {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .glass-card { padding: 20px; border-radius: 16px; }
+      
+      .header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+      
+      .logo { flex-direction: column; }
+      .logo-text h1 { font-size: 24px; }
+      
+      .input-group {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .chat-window {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 70vh;
+        border-radius: 20px 20px 0 0;
+      }
+      
+      .chat-close {
+        display: flex;
+      }
+      
+      .ai-chat {
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .item-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .item-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Modal -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Modal</h3>
+        <button class="btn-icon btn-outline" onclick="closeModal()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer" id="modalFooter"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="card">
+      <div class="header">
+        <div class="logo">
+          <div class="logo-icon">🛒</div>
+          <div class="logo-text">
+            <h1>SmartCart Pro</h1>
+            <p>Your AI-Powered Shopping Companion</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="themeToggle" class="btn-icon btn-outline">
+            <i id="themeIcon" class="bi bi-moon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-label">Total Items</div>
+          <div class="stat-value" id="totalItems">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-label">Total Cost</div>
+          <div class="stat-value">₹<span id="totalCost">0.00</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-label">Budget</div>
+          <div class="stat-value">₹<span id="budgetDisplay">0.00</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💵</div>
+          <div class="stat-label">Remaining</div>
+          <div class="stat-value" id="remaining">₹0.00</div>
+        </div>
+      </div>
+
+      <!-- Budget Progress -->
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">BUDGET USAGE</span>
+          <span id="budgetPercent" style="font-size: 14px; font-weight: 700; color: var(--primary);">0%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div id="budgetBar" class="progress-bar" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Suggestions -->
+    <div class="card" id="aiSuggestionsCard" style="display: none;">
+      <div class="ai-suggestions">
+        <div class="ai-badge">
+          <i class="bi bi-stars"></i> AI Smart Suggestions
+        </div>
+        <div id="aiSuggestionsContent"></div>
+        <div class="suggestion-list" id="suggestionList"></div>
+      </div>
+    </div>
+
+    <!-- Add Item -->
+    <div class="card">
+      <h3 style="margin-bottom: 20px; font-size: 22px; font-weight: 800;">
+        <i class="bi bi-plus-circle-fill" style="color: var(--primary);"></i> Add New Item
+      </h3>
+      
+      <div class="input-group">
+        <input type="text" id="itemName" class="input-field" placeholder="Item name (e.g., Milk, Bread)">
+        <input type="number" id="itemQty" class="input-field" placeholder="Qty" min="1" value="1">
+        <input type="number" id="itemPrice" class="input-field" placeholder="Price ₹" min="0" step="0.01">
+        <button id="addBtn" class="btn btn-primary">
+          <i class="bi bi-plus-lg"></i> Add
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+        <button id="voiceBtn" class="btn btn-outline" style="display:none;">
+          <i class="bi bi-mic-fill"></i> Voice
+        </button>
+        <button id="aiSuggestBtn" class="btn btn-secondary">
+          <i class="bi bi-stars"></i> AI Suggest
+        </button>
+        <input type="number" id="budgetInput" class="input-field" placeholder="Set Budget ₹" min="0" step="0.01" style="max-width: 200px;">
+      </div>
+
+      <!-- Category Quick Add -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 14px; font-weight: 700; color: var(--text-secondary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Quick Add by Category</h4>
+        <div class="category-tabs">
+          <div class="category-tab" onclick="askAI('suggest stationary items')">📝 Stationary</div>
+          <div class="category-tab" onclick="askAI('suggest diet items')">🥗 Diet Items</div>
+          <div class="category-tab" onclick="askAI('suggest protein items')">💪 Protein</div>
+          <div class="category-tab" onclick="askAI('suggest daily needs')">🏠 Daily Needs</div>
+          <div class="category-tab" onclick="askAI('suggest snacks')">🍿 Snacks</div>
+          <div class="category-tab" onclick="askAI('suggest beverages')">🥤 Beverages</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button id="clearAllBtn" class="btn btn-outline">
+          <i class="bi bi-trash"></i> Clear All
+        </button>
+        <button id="exportBtn" class="btn btn-outline">
+          <i class="bi bi-download"></i> Export
+        </button>
+        <button id="printBtn" class="btn btn-outline">
+          <i class="bi bi-printer"></i> Print
+        </button>
+        <button id="shareBtn" class="btn btn-primary">
+          <i class="bi bi-whatsapp"></i> Share
+        </button>
+        <button id="findShopsBtn" class="btn btn-outline">
+          <i class="bi bi-geo-alt-fill"></i> Find Shops
+        </button>
+      </div>
+    </div>
+
+    <!-- Item List -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <h3 style="margin: 0; font-size: 22px; font-weight: 800;">
+          <i class="bi bi-cart-check-fill" style="color: var(--primary);"></i> Shopping List
+        </h3>
+        <input type="text" id="searchInput" class="input-field" placeholder="🔍 Search items..." style="max-width: 300px;">
+      </div>
+      
+      <div id="itemList" class="item-list">
+        <div class="empty-state">
+          <i class="bi bi-cart-x"></i>
+          <h4>No items yet</h4>
+          <p>Start adding items to your shopping list</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Chat -->
+  <div class="ai-chat">
+    <button class="chat-button" id="chatToggle">
+      <i class="bi bi-robot"></i>
+    </button>
+    <div class="chat-backdrop" id="chatBackdrop"></div>
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <div>
+          <i class="bi bi-robot"></i> Grocery AI Assistant
+        </div>
+        <button class="chat-close" id="chatClose">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message ai">
+          Hi! I'm your grocery shopping assistant. I can help you plan meals, suggest items, find deals, and optimize your shopping list. How can I help you today?
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Ask me anything...">
+        <button class="btn btn-primary" id="chatSend">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Storage and State
+    const STORAGE_KEY = 'smartgrocery_items_v2';
+    const BUDGET_KEY = 'smartgrocery_budget';
+    const THEME_KEY = 'smartgrocery_theme';
+    
+    let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    let budget = parseFloat(localStorage.getItem(BUDGET_KEY) || '0');
+
+    // DOM Elements
+    const $ = id => document.getElementById(id);
+    
+    // AI Assistant Class
+    class GroceryAI {
+      constructor() {
+        this.commonItems = {
+          dairy: ['Milk', 'Yogurt', 'Cheese', 'Butter', 'Eggs'],
+          vegetables: ['Tomatoes', 'Onions', 'Potatoes', 'Carrots', 'Spinach', 'Broccoli'],
+          fruits: ['Apples', 'Bananas', 'Oranges', 'Grapes', 'Mangoes'],
+          grains: ['Rice', 'Wheat Flour', 'Bread', 'Pasta', 'Oats'],
+          proteins: ['Chicken', 'Fish', 'Lentils', 'Beans', 'Tofu'],
+          pantry: ['Oil', 'Salt', 'Sugar', 'Tea', 'Coffee', 'Spices'],
+          snacks: ['Biscuits', 'Chips', 'Nuts', 'Chocolate'],
+          beverages: ['Juice', 'Soft Drinks', 'Water Bottles'],
+          cleaning: ['Detergent', 'Soap', 'Shampoo', 'Toothpaste']
+        };
+      }
+
+      suggestItems(currentItems = []) {
+        const existing = currentItems.map(i => i.name.toLowerCase());
+        const suggestions = [];
+        
+        // Suggest essentials not in list
+        Object.values(this.commonItems).forEach(category => {
+          category.forEach(item => {
+            if (!existing.includes(item.toLowerCase()) && suggestions.length < 8) {
+              suggestions.push(item);
+            }
+          });
+        });
+        
+        return suggestions.slice(0, 8);
+      }
+
+      analyzeList(items, budget) {
+        const insights = [];
+        const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0);
+        
+        if (items.length === 0) {
+          return ['Your list is empty. Start by adding essential items like milk, bread, and vegetables.'];
+        }
+        
+        if (budget > 0) {
+          const remaining = budget - total;
+          const percent = (total / budget) * 100;
+          
+          if (percent > 100) {
+            insights.push(`⚠️ You're over budget by ₹${Math.abs(remaining).toFixed(2)}. Consider removing some items or finding cheaper alternatives.`);
+          } else if (percent > 80) {
+            insights.push(`💰 You're using ${percent.toFixed(0)}% of your budget. You have ₹${remaining.toFixed(2)} left.`);
+          } else {
+            insights.push(`✅ Good budget management! You have ₹${remaining.toFixed(2)} remaining (${(100-percent).toFixed(0)}% of budget).`);
+          }
+        }
+        
+        // Category analysis
+        const categories = this.categorizeItems(items);
+        const missingCategories = [];
+        
+        if (!categories.dairy) missingCategories.push('dairy products');
+        if (!categories.vegetables) missingCategories.push('vegetables');
+        if (!categories.fruits) missingCategories.push('fruits');
+        
+        if (missingCategories.length > 0) {
+          insights.push(`🥗 Consider adding ${missingCategories.join(', ')} for a balanced diet.`);
+        }
+        
+        // Quantity warnings
+        const highQtyItems = items.filter(i => i.qty > 10);
+        if (highQtyItems.length > 0) {
+          insights.push(`📦 High quantities detected for: ${highQtyItems.map(i => i.name).join(', ')}. Make sure you have storage space!`);
+        }
+        
+        return insights;
+      }
+
+      categorizeItems(items) {
+        const categories = {};
+        items.forEach(item => {
+          const name = item.name.toLowerCase();
+          for (const [cat, itemList] of Object.entries(this.commonItems)) {
+            if (itemList.some(i => name.includes(i.toLowerCase()))) {
+              categories[cat] = true;
+            }
+          }
+        });
+        return categories;
+      }
+
+      chatResponse(message, items = [], budget = 0) {
+        const lowerMsg = message.toLowerCase();
+        
+        // Greetings
+        if (lowerMsg.match(/\b(hello|hi|hey|good morning|good evening)\b/)) {
+          return "Hello! 👋 I'm your SmartCart AI assistant. I can help you with:\n\n• **Stationary items** - Pens, notebooks, files\n• **Diet & healthy foods** - Low-calorie, organic options\n• **Protein-rich foods** - Eggs, chicken, supplements\n• **Daily essentials** - Toiletries, cleaning supplies\n• **Meal planning** - Breakfast, lunch, dinner ideas\n• **Budget optimization** - Save money tips\n\nWhat would you like help with today?";
+        }
+        
+        // Stationary items
+        if (lowerMsg.match(/\b(stationary|stationery|pen|pencil|notebook|paper|file|office|school|study)\b/)) {
+          return "📝 **Stationary Items Suggestions:**\n\n**Writing:**\n• Pens (ballpoint, gel) - ₹10-50 each\n• Pencils (HB, 2B) - ₹5-20 each\n• Erasers & Sharpeners - ₹5-15\n• Markers & Highlighters - ₹20-100\n\n**Paper Products:**\n• Notebooks (ruled, plain) - ₹30-150\n• A4 Paper (500 sheets) - ₹200-300\n• Sticky Notes - ₹50-100\n\n**Organization:**\n• Files & Folders - ₹20-80\n• Staplers & Pins - ₹50-150\n• Paper Clips & Binder Clips - ₹20-50\n• Tape & Glue - ₹15-60\n\n**Other:**\n• Scissors - ₹30-100\n• Calculator - ₹150-500\n• Desk Organizer - ₹200-800\n\nClick any suggestion above or tell me what you need!";
+        }
+        
+        // Diet items
+        if (lowerMsg.match(/\b(diet|healthy|nutrition|weight loss|low calorie|organic|fitness|lean)\b/)) {
+          return "🥗 **Diet & Healthy Food Suggestions:**\n\n**Vegetables (Low-Cal):**\n• Spinach, Broccoli, Cauliflower - ₹30-60/kg\n• Cucumber, Tomatoes, Carrots - ₹20-50/kg\n• Bell Peppers, Zucchini - ₹40-80/kg\n\n**Fruits:**\n• Apples, Oranges - ₹80-150/kg\n• Bananas - ₹40-60/dozen\n• Berries (when available) - ₹200-400/kg\n• Papaya, Watermelon - ₹30-50/kg\n\n**Whole Grains:**\n• Brown Rice - ₹80-120/kg\n• Oats - ₹150-250/kg\n• Quinoa - ₹300-500/kg\n• Whole Wheat Bread - ₹40-60/loaf\n\n**Dairy (Low-Fat):**\n• Skim Milk - ₹50-70/liter\n• Greek Yogurt - ₹80-150/cup\n• Cottage Cheese (Paneer) - ₹300-400/kg\n\n**Healthy Fats:**\n• Olive Oil - ₹400-800/liter\n• Nuts (almonds, walnuts) - ₹600-1000/kg\n• Avocado - ₹150-250 each\n\n**Beverages:**\n• Green Tea - ₹150-300/pack\n• Herbal Tea - ₹200-400/pack\n\nPerfect for weight management and healthy living!";
+        }
+        
+        // Protein items
+        if (lowerMsg.match(/\b(protein|muscle|gym|workout|bodybuilding|whey|supplement|chicken|egg|meat|fish)\b/)) {
+          return "💪 **Protein-Rich Food Suggestions:**\n\n**Animal Protein:**\n• **Eggs** - ₹60-80/dozen (7g protein each)\n• **Chicken Breast** - ₹200-300/kg (31g/100g)\n• **Fish (Salmon, Tuna)** - ₹400-800/kg (20-25g/100g)\n• **Lean Beef** - ₹400-600/kg (26g/100g)\n• **Turkey** - ₹350-500/kg (29g/100g)\n\n**Dairy Protein:**\n• **Greek Yogurt** - ₹80-150/cup (10g/100g)\n• **Cottage Cheese (Paneer)** - ₹300-400/kg (18g/100g)\n• **Milk** - ₹50-70/liter (3.4g/100ml)\n• **Cheese** - ₹400-600/kg (25g/100g)\n\n**Plant Protein:**\n• **Lentils (Dal)** - ₹80-150/kg (9g/100g)\n• **Chickpeas** - ₹80-120/kg (19g/100g)\n• **Kidney Beans** - ₹100-150/kg (24g/100g)\n• **Tofu** - ₹150-250/kg (8g/100g)\n• **Peanut Butter** - ₹200-400/kg (25g/100g)\n\n**Protein Supplements:**\n• **Whey Protein** - ₹2000-4000/kg\n• **Protein Bars** - ₹100-200 each\n• **Protein Powder (Plant)** - ₹1500-3000/kg\n\n**Nuts & Seeds:**\n• **Almonds** - ₹600-900/kg (21g/100g)\n• **Peanuts** - ₹150-250/kg (26g/100g)\n• **Chia Seeds** - ₹400-600/kg (17g/100g)\n\nGreat for muscle building and recovery!";
+        }
+        
+        // Daily needs
+        if (lowerMsg.match(/\b(daily|essential|household|toiletries|cleaning|bathroom|kitchen|home)\b/)) {
+          return "🏠 **Daily Essentials Suggestions:**\n\n**Bathroom/Personal Care:**\n• **Toothpaste** - ₹40-100\n• **Toothbrush** - ₹20-80\n• **Soap/Body Wash** - ₹30-150\n• **Shampoo** - ₹150-400\n• **Conditioner** - ₹200-500\n• **Face Wash** - ₹100-300\n• **Moisturizer** - ₹150-500\n• **Deodorant** - ₹150-300\n• **Razor & Blades** - ₹100-400\n• **Toilet Paper** - ₹150-300/pack\n\n**Cleaning Supplies:**\n• **Detergent (Washing)** - ₹200-500/kg\n• **Dish Soap** - ₹80-200\n• **Floor Cleaner** - ₹100-250\n• **Toilet Cleaner** - ₹80-200\n• **Glass Cleaner** - ₹100-200\n• **Disinfectant Spray** - ₹150-300\n• **Sponges & Scrubbers** - ₹30-100\n• **Garbage Bags** - ₹100-200/pack\n\n**Kitchen Essentials:**\n• **Dish Soap** - ₹80-200\n• **Kitchen Towels** - ₹100-300/pack\n• **Aluminum Foil** - ₹80-150\n• **Plastic Wrap** - ₹60-120\n• **Ziplock Bags** - ₹100-200/pack\n\n**Laundry:**\n• **Fabric Softener** - ₹150-300\n• **Stain Remover** - ₹100-250\n• **Clothes Hangers** - ₹100-300/set\n\n**Other:**\n• **Batteries** - ₹50-200/pack\n• **Light Bulbs** - ₹50-200 each\n• **Tissues** - ₹40-100/box\n• **Paper Towels** - ₹100-200/roll\n\nEverything you need for daily living!";
+        }
+        
+        // Snacks
+        if (lowerMsg.match(/\b(snack|munch|chips|biscuit|cookie|namkeen|chocolate)\b/)) {
+          return "🍿 **Snacks & Munchies:**\n\n**Savory:**\n• Potato Chips - ₹20-100\n• Namkeen Mix - ₹30-150/pack\n• Popcorn - ₹40-100\n• Crackers - ₹30-80\n• Pretzels - ₹50-150\n\n**Sweet:**\n• Biscuits/Cookies - ₹20-100/pack\n• Chocolate Bars - ₹30-200\n• Candy - ₹10-50\n• Cake/Pastries - ₹50-200\n\n**Healthy Snacks:**\n• Roasted Nuts - ₹200-500/kg\n• Dried Fruits - ₹300-800/kg\n• Granola Bars - ₹100-200/pack\n• Rice Cakes - ₹80-150\n\nPerfect for movie nights and cravings!";
+        }
+        
+        // Beverages
+        if (lowerMsg.match(/\b(beverage|drink|juice|soda|coffee|tea|water)\b/)) {
+          return "🥤 **Beverages:**\n\n**Hot Drinks:**\n• Tea (Black, Green) - ₹150-400/pack\n• Coffee (Ground, Instant) - ₹200-800/pack\n• Hot Chocolate - ₹150-300\n\n**Cold Drinks:**\n• Soft Drinks - ₹40-80/liter\n• Fruit Juice - ₹80-200/liter\n• Energy Drinks - ₹100-150\n• Coconut Water - ₹40-80\n\n**Water:**\n• Bottled Water - ₹20-40/liter\n• Sparkling Water - ₹40-100/liter\n\n**Healthy Options:**\n• Herbal Tea - ₹200-400\n• Fresh Juice (make at home)\n• Smoothie ingredients\n\nStay hydrated and refreshed!";
+        }
+        
+        // Budget help
+        if (lowerMsg.match(/\b(budget|money|cost|expensive|cheap|save|afford)\b/)) {
+          const total = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
+          if (budget === 0) {
+            return "💰 **Budget Tips:**\n\nSet a budget first to track your spending! Here are some money-saving tips:\n\n• **Buy in bulk** for non-perishables\n• **Compare prices** across stores\n• **Use coupons** and loyalty programs\n• **Buy store brands** instead of premium\n• **Plan meals** to avoid waste\n• **Shop seasonal** produce\n• **Make a list** and stick to it\n• **Avoid shopping hungry**\n\nSet your budget above to get personalized insights!";
+          }
+          const remaining = budget - total;
+          if (remaining < 0) {
+            return `⚠️ You're **₹${Math.abs(remaining).toFixed(2)} over budget**!\n\n**Quick Fixes:**\n• Remove non-essential items\n• Choose cheaper alternatives\n• Reduce quantities\n• Buy store brands\n• Skip luxury items\n\nWould you like me to suggest which items to remove?`;
+          }
+          return `✅ Great! You have **₹${remaining.toFixed(2)} remaining** (${((remaining/budget)*100).toFixed(0)}% of budget).\n\nYou can:\n• Add more essentials\n• Save the extra money\n• Stock up on sale items\n• Buy some treats!\n\nYou're managing your budget well! 🎉`;
+        }
+        
+        // Meal planning
+        if (lowerMsg.match(/\b(meal|recipe|cook|dinner|lunch|breakfast|food)\b/)) {
+          return "🍳 **Meal Planning Suggestions:**\n\n**Breakfast:**\n• Eggs, bread, butter, milk\n• Oats, fruits, honey\n• Cereal, yogurt, berries\n• Parathas, curd, pickle\n\n**Lunch:**\n• Rice, dal, vegetables\n• Roti, sabzi, curd\n• Pasta, sauce, cheese\n• Salad, chicken, dressing\n\n**Dinner:**\n• Chicken curry, rice, roti\n• Fish, vegetables, lemon\n• Paneer, gravy, naan\n• Soup, bread, salad\n\n**Snacks:**\n• Fruits, nuts, tea\n• Sandwiches, juice\n• Samosas, chutney\n\nWant specific recipes or ingredients?";
+        }
+        
+        // Shopping tips
+        if (lowerMsg.match(/\b(tip|advice|help|how|guide|smart)\b/)) {
+          return "💡 **Smart Shopping Tips:**\n\n**Before Shopping:**\n✓ Make a detailed list\n✓ Check what you have\n✓ Set a budget\n✓ Look for coupons\n✓ Don't shop hungry!\n\n**At the Store:**\n✓ Stick to your list\n✓ Compare unit prices\n✓ Check expiry dates\n✓ Buy seasonal produce\n✓ Avoid impulse buys\n\n**Save Money:**\n✓ Buy store brands\n✓ Use loyalty cards\n✓ Buy in bulk (non-perishables)\n✓ Shop during sales\n✓ Use cashback apps\n\n**Storage:**\n✓ First in, first out\n✓ Proper refrigeration\n✓ Airtight containers\n✓ Label and date items\n\nHappy shopping! 🛒";
+        }
+        
+        // List analysis
+        if (lowerMsg.match(/\b(analyze|check|review|look|list|what)\b/)) {
+          if (items.length === 0) {
+            return "Your list is empty! Start by adding:\n\n• **Daily essentials** (milk, bread, eggs)\n• **Vegetables & fruits**\n• **Protein sources**\n• **Pantry staples**\n\nUse the category buttons above for quick suggestions!";
+          }
+          
+          const insights = this.analyzeList(items, budget);
+          return `📊 **Your Shopping List Analysis:**\n\n${insights.join('\n\n')}\n\nNeed help optimizing your list?`;
+        }
+        
+        // Default helpful response
+        return "I can help you with:\n\n📝 **Stationary** - Office & school supplies\n🥗 **Diet Items** - Healthy, low-calorie foods\n💪 **Protein** - Muscle-building foods\n🏠 **Daily Needs** - Household essentials\n🍿 **Snacks** - Treats and munchies\n🥤 **Beverages** - Drinks and refreshments\n💰 **Budget** - Money-saving tips\n🍳 **Meals** - Recipe and meal planning\n\nJust ask me about any category or type: 'suggest protein items' or 'daily needs'!";
+      }
+    }
+
+    const ai = new GroceryAI();
+
+    // Modal Functions
+    function showModal(title, body, buttons = []) {
+      const overlay = $('modalOverlay');
+      const modalTitle = $('modalTitle');
+      const modalBody = $('modalBody');
+      const modalFooter = $('modalFooter');
+
+      modalTitle.textContent = title;
+      modalBody.innerHTML = body;
+      
+      modalFooter.innerHTML = '';
+      buttons.forEach(btn => {
+        const button = document.createElement('button');
+        button.className = btn.primary ? 'btn btn-primary' : 'btn btn-outline';
+        button.innerHTML = btn.text;
+        button.onclick = () => {
+          if (btn.onClick) btn.onClick();
+          if (btn.closeOnClick !== false) closeModal();
+        };
+        modalFooter.appendChild(button);
+      });
+
+      overlay.classList.add('active');
+    }
+
+    function closeModal() {
+      $('modalOverlay').classList.remove('active');
+    }
+
+    function showAlert(message, title = 'Message') {
+      showModal(title, `<p>${message}</p>`, [
+        { text: '<i class="bi bi-check"></i> OK', primary: true }
+      ]);
+    }
+
+    function showConfirm(message, onConfirm, title = 'Confirm') {
+      showModal(title, `<p>${message}</p>`, [
+        { text: '<i class="bi bi-x"></i> Cancel', primary: false },
+        { text: '<i class="bi bi-check"></i> Confirm', primary: true, onClick: onConfirm }
+      ]);
+    }
+
+    // Theme Toggle
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        $('themeIcon').className = 'bi bi-sun';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        $('themeIcon').className = 'bi bi-moon';
+      }
+      localStorage.setItem(THEME_KEY, theme);
+    }
+
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+    applyTheme(savedTheme);
+
+    $('themeToggle').addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Render Functions
+    function updateStats() {
+      const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0);
+      const remaining = budget - total;
+      const percent = budget > 0 ? Math.min((total / budget) * 100, 100) : 0;
+
+      $('totalItems').textContent = items.length;
+      $('totalCost').textContent = total.toFixed(2);
+      $('budgetDisplay').textContent = budget.toFixed(2);
+      $('remaining').textContent = `₹${remaining.toFixed(2)}`;
+      $('budgetPercent').textContent = `${Math.round(percent)}%`;
+
+      const bar = $('budgetBar');
+      bar.style.width = `${percent}%`;
+      bar.className = 'progress-bar';
+      if (percent > 90) bar.classList.add('danger');
+      else if (percent > 70) bar.classList.add('warning');
+
+      // Update remaining color
+      $('remaining').style.color = remaining < 0 ? 'var(--danger)' : 'var(--success)';
+    }
+
+    function renderItems() {
+      const container = $('itemList');
+      const search = $('searchInput').value.toLowerCase();
+      
+      const filtered = items.filter(item => 
+        item.name.toLowerCase().includes(search)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="bi bi-cart-x"></i>
+            <h4>${search ? 'No items found' : 'No items yet'}</h4>
+            <p>${search ? 'Try a different search term' : 'Start adding items to your grocery list'}</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      filtered.forEach((item, index) => {
+        const actualIndex = items.indexOf(item);
+        const total = item.qty * item.price;
+        
+        const card = document.createElement('div');
+        card.className = `item-card ${item.purchased ? 'purchased' : ''}`;
+        card.innerHTML = `
+          <div class="item-checkbox ${item.purchased ? 'checked' : ''}" onclick="togglePurchased(${actualIndex})">
+            ${item.purchased ? '<i class="bi bi-check-lg"></i>' : ''}
+          </div>
+          <div class="item-info">
+            <div class="item-name">${escapeHtml(item.name)}</div>
+            <div class="item-details">
+              Qty: ${item.qty} × ₹${item.price.toFixed(2)} = ₹${total.toFixed(2)}
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn-icon btn-outline" onclick="editItem(${actualIndex})" title="Edit">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn-icon btn-outline" onclick="deleteItem(${actualIndex})" title="Delete">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      updateStats();
+      saveData();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      localStorage.setItem(BUDGET_KEY, budget.toString());
+    }
+
+    // CRUD Operations
+    function addItem() {
+      const name = $('itemName').value.trim();
+      const qty = parseInt($('itemQty').value) || 1;
+      const price = parseFloat($('itemPrice').value) || 0;
+
+      if (!name) {
+        showAlert('Please enter an item name', 'Missing Information');
+        return;
+      }
+
+      items.push({ name, qty, price, purchased: false });
+      
+      $('itemName').value = '';
+      $('itemQty').value = '1';
+      $('itemPrice').value = '';
+      
+      renderItems();
+      showAISuggestions();
+      showAlert(`${name} added to your list!`, 'Item Added');
+    }
+
+    function editItem(index) {
+      const item = items[index];
+      
+      showModal('Edit Item', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <input type="text" id="editName" class="input-field" value="${escapeHtml(item.name)}" placeholder="Item name">
+          <input type="number" id="editQty" class="input-field" value="${item.qty}" min="1" placeholder="Quantity">
+          <input type="number" id="editPrice" class="input-field" value="${item.price}" min="0" step="0.01" placeholder="Price">
+        </div>
+      `, [
+        { text: '<i class="bi bi-x"></i> Cancel', primary: false },
+        { 
+          text: '<i class="bi bi-check"></i> Save', 
+          primary: true, 
+          onClick: () => {
+            const newName = $('editName').value.trim();
+            const newQty = parseInt($('editQty').value) || 1;
+            const newPrice = parseFloat($('editPrice').value) || 0;
+            
+            if (newName) {
+              items[index] = { ...item, name: newName, qty: newQty, price: newPrice };
+              renderItems();
+              showAlert('Item updated successfully!', 'Success');
+            }
+          }
+        }
+      ]);
+    }
+
+    function deleteItem(index) {
+      const item = items[index];
+      showConfirm(
+        `Are you sure you want to remove "${item.name}" from your list?`,
+        () => {
+          items.splice(index, 1);
+          renderItems();
+          showAlert('Item removed from list', 'Removed');
+        },
+        'Remove Item'
+      );
+    }
+
+    function togglePurchased(index) {
+      items[index].purchased = !items[index].purchased;
+      renderItems();
+    }
+
+    // AI Suggestions
+    function showAISuggestions() {
+      const suggestions = ai.suggestItems(items);
+      const insights = ai.analyzeList(items, budget);
+      
+      if (suggestions.length === 0 && insights.length === 0) {
+        $('aiSuggestionsCard').style.display = 'none';
+        return;
+      }
+
+      $('aiSuggestionsCard').style.display = 'block';
+      $('aiSuggestionsContent').innerHTML = insights.map(i => 
+        `<div style="margin: 8px 0;">${i}</div>`
+      ).join('');
+
+      const suggestionList = $('suggestionList');
+      suggestionList.innerHTML = '';
+      suggestions.forEach(item => {
+        const chip = document.createElement('div');
+        chip.className = 'suggestion-chip';
+        chip.textContent = item;
+        chip.onclick = () => {
+          $('itemName').value = item;
+          $('itemName').focus();
+          showAlert(`"${item}" added to input. Set quantity and price, then click Add.`, 'Suggestion Selected');
+        };
+        suggestionList.appendChild(chip);
+      });
+    }
+
+    // Chat Functions
+    function openChat() {
+      $('chatWindow').classList.add('active');
+      $('chatBackdrop').classList.add('active');
+      if (window.innerWidth <= 768) {
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeChat() {
+      $('chatWindow').classList.remove('active');
+      $('chatBackdrop').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    $('chatToggle').onclick = () => {
+      if ($('chatWindow').classList.contains('active')) {
+        closeChat();
+      } else {
+        openChat();
+      }
+    };
+
+    $('chatClose').onclick = closeChat;
+    $('chatBackdrop').onclick = closeChat;
+
+    function addChatMessage(text, isUser = false) {
+      const msg = document.createElement('div');
+      msg.className = `chat-message ${isUser ? 'user' : 'ai'}`;
+      
+      if (!isUser) {
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        text = text.replace(/\n/g, '<br>');
+        msg.innerHTML = text;
+      } else {
+        msg.textContent = text;
+      }
+      
+      $('chatMessages').appendChild(msg);
+      $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
+    }
+
+    function sendChatMessage() {
+      const input = $('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      addChatMessage(text, true);
+      input.value = '';
+
+      setTimeout(() => {
+        const response = ai.chatResponse(text, items, budget);
+        addChatMessage(response, false);
+      }, 500);
+    }
+
+    $('chatSend').onclick = sendChatMessage;
+    $('chatInput').onkeypress = (e) => {
+      if (e.key === 'Enter') sendChatMessage();
+    };
+
+    // Event Listeners
+    $('addBtn').onclick = addItem;
+    $('itemName').onkeypress = (e) => { if (e.key === 'Enter') addItem(); };
+    $('itemQty').onkeypress = (e) => { if (e.key === 'Enter') addItem(); };
+    $('itemPrice').onkeypress = (e) => { if (e.key === 'Enter') addItem(); };
+
+    $('budgetInput').oninput = (e) => {
+      budget = parseFloat(e.target.value) || 0;
+      updateStats();
+      saveData();
+      showAISuggestions();
+    };
+
+    $('searchInput').oninput = renderItems;
+
+    $('clearAllBtn').onclick = () => {
+      showConfirm(
+        'Are you sure you want to clear all items? This cannot be undone.',
+        () => {
+          items = [];
+          renderItems();
+          showAlert('All items cleared', 'Cleared');
+        },
+        'Clear All Items'
+      );
+    };
+
+    $('aiSuggestBtn').onclick = () => {
+      showAISuggestions();
+      $('aiSuggestionsCard').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Voice Input - Alternative approach with manual input simulation
+    let isListening = false;
+    let voiceTimeout = null;
+
+    // Check for Speech Recognition support
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      $('voiceBtn').onclick = () => {
+        if (isListening) {
+          recognition.stop();
+          return;
+        }
+
+        try {
+          recognition.start();
+          isListening = true;
+          $('voiceBtn').innerHTML = '<i class="bi bi-mic-fill" style="color: var(--danger);"></i> Listening...';
+          $('voiceBtn').style.animation = 'pulse 1s infinite';
+          
+          // Auto-stop after 10 seconds
+          voiceTimeout = setTimeout(() => {
+            if (isListening) {
+              recognition.stop();
+            }
+          }, 10000);
+          
+        } catch (error) {
+          console.error('Speech recognition error:', error);
+          // Fallback to manual input
+          showVoiceInputDialog();
+        }
+      };
+
+      recognition.onstart = () => {
+        console.log('Speech recognition started');
+        isListening = true;
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        console.log('Speech recognition result:', transcript);
+        
+        if (transcript) {
+          const capitalizedText = transcript.charAt(0).toUpperCase() + transcript.slice(1);
+          $('itemName').value = capitalizedText;
+          $('itemName').focus();
+          showAlert(`Voice captured: "${capitalizedText}"`, 'Success!');
+        }
+      };
+
+      recognition.onend = () => {
+        console.log('Speech recognition ended');
+        isListening = false;
+        $('voiceBtn').innerHTML = '<i class="bi bi-mic-fill"></i> Voice';
+        $('voiceBtn').style.animation = '';
+        if (voiceTimeout) {
+          clearTimeout(voiceTimeout);
+          voiceTimeout = null;
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        isListening = false;
+        $('voiceBtn').innerHTML = '<i class="bi bi-mic-fill"></i> Voice';
+        $('voiceBtn').style.animation = '';
+        
+        if (voiceTimeout) {
+          clearTimeout(voiceTimeout);
+          voiceTimeout = null;
+        }
+
+        // Show fallback dialog for common errors
+        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+          showVoiceInputDialog();
+        } else {
+          let errorMessage = 'Voice input failed. ';
+          switch (event.error) {
+            case 'no-speech':
+              errorMessage += 'No speech detected. Please try again.';
+              break;
+            case 'audio-capture':
+              errorMessage += 'Microphone not accessible.';
+              showVoiceInputDialog();
+              return;
+            case 'network':
+              errorMessage += 'Network error occurred.';
+              break;
+            default:
+              errorMessage += 'Please try the manual input option.';
+              showVoiceInputDialog();
+              return;
+          }
+          showAlert(errorMessage, 'Voice Input Error');
+        }
+      };
+
+      recognition.onnomatch = () => {
+        showAlert('No speech was recognized. Please try again or use manual input.', 'No Match');
+      };
+
+    } else {
+      // Fallback for unsupported browsers
+      $('voiceBtn').onclick = showVoiceInputDialog;
+      $('voiceBtn').innerHTML = '<i class="bi bi-keyboard"></i> Voice';
+      $('voiceBtn').title = 'Voice input (manual mode)';
+    }
+
+    // Fallback voice input dialog
+    function showVoiceInputDialog() {
+      showModal('Voice Input', `
+        <div style="text-align: center; padding: 20px;">
+          <i class="bi bi-mic-fill" style="font-size: 48px; color: var(--primary); margin-bottom: 16px;"></i>
+          <p style="margin-bottom: 20px; color: var(--text-secondary);">
+            Speak your item name, then type it below:
+          </p>
+          <input type="text" id="voiceManualInput" class="input-field" placeholder="Type what you want to add..." style="width: 100%; margin-bottom: 16px;">
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+            <button onclick="quickAddVoiceItem('Milk')" class="suggestion-chip">Milk</button>
+            <button onclick="quickAddVoiceItem('Bread')" class="suggestion-chip">Bread</button>
+            <button onclick="quickAddVoiceItem('Eggs')" class="suggestion-chip">Eggs</button>
+            <button onclick="quickAddVoiceItem('Rice')" class="suggestion-chip">Rice</button>
+            <button onclick="quickAddVoiceItem('Chicken')" class="suggestion-chip">Chicken</button>
+            <button onclick="quickAddVoiceItem('Tomatoes')" class="suggestion-chip">Tomatoes</button>
+          </div>
+        </div>
+      `, [
+        { text: '<i class="bi bi-x"></i> Cancel', primary: false },
+        { 
+          text: '<i class="bi bi-check"></i> Add Item', 
+          primary: true, 
+          onClick: () => {
+            const input = document.getElementById('voiceManualInput');
+            if (input && input.value.trim()) {
+              $('itemName').value = input.value.trim();
+              $('itemName').focus();
+              showAlert(`Added: "${input.value.trim()}"`, 'Item Added to Input');
+            }
+          }
+        }
+      ]);
+      
+      // Focus the input after modal opens
+      setTimeout(() => {
+        const input = document.getElementById('voiceManualInput');
+        if (input) {
+          input.focus();
+          input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && input.value.trim()) {
+              $('itemName').value = input.value.trim();
+              closeModal();
+              $('itemName').focus();
+              showAlert(`Added: "${input.value.trim()}"`, 'Item Added to Input');
+            }
+          });
+        }
+      }, 100);
+    }
+
+    // Quick add function for voice dialog
+    function quickAddVoiceItem(itemName) {
+      $('itemName').value = itemName;
+      closeModal();
+      $('itemName').focus();
+      showAlert(`Added: "${itemName}"`, 'Quick Add');
+    }
+
+    // Export CSV
+    $('exportBtn').onclick = () => {
+      if (items.length === 0) {
+        showAlert('No items to export', 'Empty List');
+        return;
+      }
+
+      let csv = 'Item,Quantity,Price,Total,Status\n';
+      items.forEach(item => {
+        const total = item.qty * item.price;
+        csv += `"${item.name}",${item.qty},${item.price.toFixed(2)},${total.toFixed(2)},${item.purchased ? 'Purchased' : 'Pending'}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `grocery-list-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      showAlert('CSV file downloaded successfully!', 'Export Complete');
+    };
+
+    // Print
+    $('printBtn').onclick = () => {
+      const total = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
+      let html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Grocery List</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            h1 { color: #10b981; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background: #10b981; color: white; }
+            .total { font-weight: bold; font-size: 18px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <h1>🛒 SmartGrocery Shopping List</h1>
+          <p>Date: ${new Date().toLocaleDateString()}</p>
+          <table>
+            <thead>
+              <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              ${items.map(item => `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td>${item.qty}</td>
+                  <td>₹${item.price.toFixed(2)}</td>
+                  <td>₹${(item.qty * item.price).toFixed(2)}</td>
+                  <td>${item.purchased ? '✓ Purchased' : 'Pending'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="total">
+            Total Items: ${items.length} | Total Cost: ₹${total.toFixed(2)} | Budget: ₹${budget.toFixed(2)}
+          </div>
+        </body>
+        </html>
+      `;
+
+      const w = window.open('', '_blank');
+      w.document.write(html);
+      w.document.close();
+      setTimeout(() => {
+        w.print();
+      }, 500);
+    };
+
+    // Share (WhatsApp)
+    $('shareBtn').onclick = () => {
+      if (items.length === 0) {
+        showAlert('No items to share', 'Empty List');
+        return;
+      }
+
+      const total = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
+      let text = '🛒 *Grocery Shopping List*\n\n';
+      
+      items.forEach(item => {
+        const itemTotal = item.qty * item.price;
+        text += `${item.purchased ? '✓' : '○'} ${item.name} - ${item.qty}x ₹${item.price.toFixed(2)} = ₹${itemTotal.toFixed(2)}\n`;
+      });
+      
+      text += `\n*Total: ₹${total.toFixed(2)}*`;
+      if (budget > 0) {
+        text += `\n*Budget: ₹${budget.toFixed(2)}*`;
+      }
+
+      const encoded = encodeURIComponent(text);
+      const url = `https://wa.me/?text=${encoded}`;
+      window.open(url, '_blank');
+    };
+
+    // Find Shops
+    $('findShopsBtn').onclick = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const { latitude, longitude } = pos.coords;
+            window.open(`https://www.google.com/maps/search/grocery+stores/@${latitude},${longitude},14z`, '_blank');
+          },
+          () => {
+            window.open('https://www.google.com/maps/search/grocery+stores', '_blank');
+          }
+        );
+      } else {
+        window.open('https://www.google.com/maps/search/grocery+stores', '_blank');
+      }
+    };
+
+    // Initialize
+    if (budget > 0) {
+      $('budgetInput').value = budget;
+    }
+    renderItems();
+    showAISuggestions();
+
+    // Helper function for category buttons
+    function askAI(question) {
+      openChat();
+      setTimeout(() => {
+        $('chatInput').value = question;
+        sendChatMessage();
+      }, 300);
+    }
+
+    // Make functions global for onclick handlers
+    window.togglePurchased = togglePurchased;
+    window.editItem = editItem;
+    window.deleteItem = deleteItem;
+    window.closeModal = closeModal;
+    window.askAI = askAI;
+    window.quickAddVoiceItem = quickAddVoiceItem;
+  </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Tera Tera Café</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --brown-dark: #8B4513;
+            --brown-light: #D2B48C;
+            --white: #FFFFFF;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        /* Service Selection Screen */
+        .service-selection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--brown-dark));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            color: var(--white);
+        }
+
+        .service-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .service-header h1 {
+            font-size: 2.5rem;
+            margin: 1rem 0 0.5rem;
+            font-weight: 700;
+        }
+
+        .service-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .service-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius);
+            padding: 2rem 1.5rem;
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .service-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-btn h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #main-content {
+            display: none;
+            padding: 2rem;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .test-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Service Selection Screen -->
+    <div id="service-selection" class="service-selection">
+        <div class="service-content">
+            <div class="service-header">
+                <h1>Tera Tera Café</h1>
+                <p>Choose your dining experience</p>
+            </div>
+            
+            <div class="service-options">
+                <button class="service-btn" onclick="selectService('dine-in')">
+                    <div class="service-icon">🍽️</div>
+                    <h3>Dine-In</h3>
+                    <p>Enjoy at our café</p>
+                </button>
+                
+                <button class="service-btn" onclick="selectService('delivery')">
+                    <div class="service-icon">🚚</div>
+                    <h3>Delivery</h3>
+                    <p>Order for home delivery</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Website Content -->
+    <div id="main-content">
+        <div class="test-content">
+            <h1>Welcome to Tera Tera Café!</h1>
+            <p>Service Type: <span id="service-type">None</span></p>
+            <button onclick="changeService()">Change Service</button>
+            
+            <div style="margin-top: 2rem;">
+                <h2>Menu Section</h2>
+                <p>This is where the menu would be displayed.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentServiceType = null;
+
+        function selectService(serviceType) {
+            console.log('Service selected:', serviceType);
+            currentServiceType = serviceType;
+            
+            // Hide service selection
+            document.getElementById('service-selection').style.display = 'none';
+            
+            // Show main content
+            document.getElementById('main-content').style.display = 'block';
+            
+            // Update service type display
+            document.getElementById('service-type').textContent = serviceType;
+            
+            // For dine-in, you could scroll to menu here
+            if (serviceType === 'dine-in') {
+                console.log('Dine-in selected - would scroll to menu');
+            } else {
+                console.log('Delivery selected - showing full website');
+            }
+        }
+
+        function changeService() {
+            // Show service selection again
+            document.getElementById('service-selection').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
+            currentServiceType = null;
+        }
+
+        // Test if everything loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded successfully');
+        });
+    </script>
+</body>
+</html>
